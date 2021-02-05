@@ -35,7 +35,7 @@ class Fantasy5(object):
 
     def generate_random_number(self, frequency_list, i):
         pick = random.randint(0, len(frequency_list)-1)
-        while int(frequency_list[pick]) in self.winning_number:
+        while int(frequency_list[pick]) in self.winning_number:  # winning_numbers are integers
             pick = random.randint(0, len(frequency_list) - 1)
 
         self.winning_number.add(int(frequency_list[pick]))
