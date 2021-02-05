@@ -34,10 +34,10 @@ class Fantasy5(object):
             [self.list_of_lists[i].append(each_tuple[0]) for j in range(each_tuple[1])]
 
     def generate_random_number(self, frequency_list, i):
-
         pick = random.randint(0, len(frequency_list)-1)
-        while frequency_list[pick] in self.winning_number:
+        while int(frequency_list[pick]) in self.winning_number:
             pick = random.randint(0, len(frequency_list) - 1)
+
         self.winning_number.add(int(frequency_list[pick]))
 
     def print_winning_number(self):
