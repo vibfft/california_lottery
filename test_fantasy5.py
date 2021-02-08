@@ -12,6 +12,7 @@ class TestFantasy5(TestCase):
         f.winning_number.add(int(value))
         self.assertTrue(int(value) in f.winning_number, "3 is winning number")
         pprint(f.winning_number)
+
         f.generate_random_number(frequency_list)
         self.assertTrue(len(f.winning_number) == 2, "Should add 2 to winning number eventually")
         pprint(f.winning_number)

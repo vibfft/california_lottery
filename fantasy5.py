@@ -1,5 +1,6 @@
 import random
 import sys
+from pprint import pprint
 
 
 class Fantasy5(object):
@@ -7,19 +8,22 @@ class Fantasy5(object):
 
     def __init__(self):
         self.winning_number = set()
-        self.list_of_hashes = [{}]*Fantasy5.SIZE
-        self.list_of_lists  = [[]]*Fantasy5.SIZE
+
+        # [{}]*Fantasy5.SIZE creates 5 hash elements with the same memory address
+        # Hence you need to create the hashes (or lists) inside the list in the following manner
+        self.list_of_hashes = [{} for h in range(Fantasy5.SIZE)]
+        self.list_of_lists = [[] for lst in range(Fantasy5.SIZE)]
 
     def read_past_numbers(self, filename):
         f = None
         try:
             f = open(filename)
-            for each_line in f:
+            for j, each_line in enumerate(f):
                 num = each_line.split()
                 for i in range(len(num)):
                     if num[i] not in self.list_of_hashes[i]:
                         self.list_of_hashes[i][num[i]] = 1
-                    else:
+                    elif num[i] in self.list_of_hashes[i]:
                         self.list_of_hashes[i][num[i]] += 1
 
         except IOError as io:
@@ -34,7 +38,7 @@ class Fantasy5(object):
             [self.list_of_lists[i].append(each_tuple[0]) for j in range(each_tuple[1])]
 
     def generate_random_number(self, frequency_list):
-        pick = random.randint(0, len(frequency_list)-1)
+        pick = random.randint(0, len(frequency_list) - 1)
         while int(frequency_list[pick]) in self.winning_number:  # winning_numbers are integers
             pick = random.randint(0, len(frequency_list) - 1)
 
@@ -47,19 +51,27 @@ class Fantasy5(object):
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: {0} winning_numbers.txt")
+    if len(sys.argv) != 3:
+        print("Usage: {0} winning_numbers.txt [avg|chance]")
         sys.exit(1)
 
-    f = Fantasy5()
-
     filename = sys.argv[1]
-    f.read_past_numbers(filename.strip())
-    for i, each_hash in enumerate(f.list_of_hashes):
-        f.populate_each_list(each_hash, i)
+    strategy = sys.argv[2]
 
+    f = Fantasy5()
+    f.read_past_numbers(filename.strip())
+    if strategy.strip() == 'avg':
+        for i, each_hash in enumerate(f.list_of_hashes):
+            f.populate_each_list(each_hash, i)
+
+    elif strategy.strip() == 'chance':
+        pass
+    else:
+        print("{0} is an invalid strategy type".format(strategy.strip()))
+        sys.exit(1)
     for each_list in f.list_of_lists:
         f.generate_random_number(each_list)
+
     f.print_winning_number()
 
 
