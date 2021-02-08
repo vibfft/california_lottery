@@ -33,7 +33,7 @@ class Fantasy5(object):
         for each_tuple in number_hash.items():  # ('1',7)
             [self.list_of_lists[i].append(each_tuple[0]) for j in range(each_tuple[1])]
 
-    def generate_random_number(self, frequency_list, i):
+    def generate_random_number(self, frequency_list):
         pick = random.randint(0, len(frequency_list)-1)
         while int(frequency_list[pick]) in self.winning_number:  # winning_numbers are integers
             pick = random.randint(0, len(frequency_list) - 1)
@@ -58,8 +58,8 @@ def main():
     for i, each_hash in enumerate(f.list_of_hashes):
         f.populate_each_list(each_hash, i)
 
-    for i, each_list in enumerate(f.list_of_lists):
-        f.generate_random_number(each_list, i)
+    for each_list in f.list_of_lists:
+        f.generate_random_number(each_list)
     f.print_winning_number()
 
 
