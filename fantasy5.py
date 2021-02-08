@@ -87,7 +87,10 @@ def main():
             f.populate_list_reverse_probability(each_hash, i)
             # numbers which were not winning numbers previously are
             # added to the list pool where it can be randomly chosen
-            [f.list_of_lists[i].append(m) for m in f.all_possible_list[i]]
+            # note that max_frequency number is added for those numbers which
+            # were not previously winning numbers
+            [f.list_of_lists[i].append(m) for n in range(f.max_frequency[i])
+             for m in f.all_possible_list[i]]
     else:
         print("{0} is an invalid strategy type".format(strategy.strip()))
         sys.exit(1)
