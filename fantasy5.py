@@ -41,14 +41,19 @@ class Fantasy5(object):
 
     def populate_each_list(self, number_hash, i):
         for each_tuple in number_hash.items():  # ('1',7)
-            [self.list_of_lists[i].append(each_tuple[0]) for j in range(each_tuple[1])]
+            [self.list_of_lists[i].append(each_tuple[0])
+                for j in range(each_tuple[1])]
 
     def populate_list_reverse_probability(self, number_hash, i):
         for each_tuple in number_hash.items():
             new_range = self.max_frequency[i] - each_tuple[1] + 1
             # frequency of each number occurrences are reversed
             # however you need to add 1 for the case of max frequency
-            [self.list_of_lists[i].append(each_tuple[0]) for j in range(new_range)]
+
+            # add each unique number for number of numbers defined in new_range
+            [self.list_of_lists[i].append(each_tuple[0])
+                for j in range(new_range)]
+
             # remove from the all possible number values if it was already a winning
             # number previously
             self.all_possible_list[i].remove(int(each_tuple[0]))
@@ -81,16 +86,18 @@ def main():
             f.populate_each_list(each_hash, i)
 
     elif strategy.strip() == 'chance':
-        for i, each_hash in enumerate(f.list_of_hashes):
+        for each_hash in f.list_of_hashes:
             f.max_frequency.append(max(each_hash.values()))
         for i, each_hash in enumerate(f.list_of_hashes):
             f.populate_list_reverse_probability(each_hash, i)
+
             # numbers which were not winning numbers previously are
             # added to the list pool where it can be randomly chosen
             # note that max_frequency number is added for those numbers which
             # were not previously winning numbers
-            [f.list_of_lists[i].append(m) for n in range(f.max_frequency[i])
-             for m in f.all_possible_list[i]]
+            [f.list_of_lists[i].append(m)
+             for n in range(f.max_frequency[i])
+                for m in f.all_possible_list[i]]
     else:
         print("{0} is an invalid strategy type".format(strategy.strip()))
         sys.exit(1)
