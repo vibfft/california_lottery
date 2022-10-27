@@ -7,7 +7,7 @@ class Fantasy5(object):
     SIZE = 5
     ALL_NUMBERS = 39
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.winning_number = set()
         self.max_frequency = []
 
@@ -20,7 +20,7 @@ class Fantasy5(object):
         self.all_possible_list = [[i for i in range(1, Fantasy5.ALL_NUMBERS + 1, 1)]
                                   for lst in range(Fantasy5.SIZE)]
 
-    def read_past_numbers(self, filename):
+    def read_past_numbers(self, filename: str) -> None:
         f = None
         try:
             f = open(filename)
@@ -39,12 +39,12 @@ class Fantasy5(object):
         finally:
             f.close()
 
-    def populate_each_list(self, number_hash, i):
+    def populate_each_list(self, number_hash: dict, i: int) -> None:
         for each_tuple in number_hash.items():  # ('1',7)
             [self.list_of_lists[i].append(each_tuple[0])
                 for j in range(each_tuple[1])]
 
-    def populate_list_reverse_probability(self, number_hash, i):
+    def populate_list_reverse_probability(self, number_hash: dict, i: int) -> None:
         for each_tuple in number_hash.items():
             new_range = self.max_frequency[i] - each_tuple[1] + 1
             # frequency of each number occurrences are reversed
@@ -58,22 +58,24 @@ class Fantasy5(object):
             # number previously
             self.all_possible_list[i].remove(int(each_tuple[0]))
 
-    def generate_random_number(self, frequency_list):
+    def generate_random_number(self, frequency_list: list) -> None:
         pick = random.randint(0, len(frequency_list) - 1)
-        while int(frequency_list[pick]) in self.winning_number:  # winning_numbers are integers
+        # winning_numbers are integers
+        while int(frequency_list[pick]) in self.winning_number:
             pick = random.randint(0, len(frequency_list) - 1)
 
         self.winning_number.add(int(frequency_list[pick]))
 
-    def print_winning_number(self):
+    def print_winning_number(self) -> None:
         for i in sorted(self.winning_number):
             print(i, end=" ")
         print()
 
 
-def main():
+def main() -> None:
     if len(sys.argv) != 3:
-        print("Usage: {0} winning_numbers.txt [average|chance]".format(sys.argv[0]))
+        print("Usage: {0} winning_numbers.txt [average|chance]".format(
+            sys.argv[0]))
         sys.exit(1)
 
     filename = sys.argv[1]
