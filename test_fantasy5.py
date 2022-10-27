@@ -4,7 +4,7 @@ from pprint import pprint
 
 
 class TestFantasy5(TestCase):
-    def test_generate_random_number(self):
+    def test_generate_random_number(self) -> None:
         frequency_list = ['3', '3', '3', '3', '3', '3', '3', '3', '3', '2']
         f = Fantasy5()
         value = '3'  # unique value
